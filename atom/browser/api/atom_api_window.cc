@@ -584,8 +584,17 @@ void Window::SetFocusable(bool focusable) {
   return window_->SetFocusable(focusable);
 }
 
-void Window::SetProgressBar(double progress) {
-  window_->SetProgressBar(progress);
+void Window::SetProgressBar(double progress, mate::Arguments* args) {
+  std::string mode; 
+
+  if (args && args->Length() == 1) {
+    mate::Dictionary options;
+    if (args->GetNext(&options)) {
+      options.Get("mode", &mode);
+    }
+  }
+
+  window_->SetProgressBar(progress, mode);
 }
 
 void Window::SetOverlayIcon(const gfx::Image& overlay,
